@@ -10,7 +10,7 @@ public class Driver {
      */
     public static void main(String[] args) throws Exception {
 	if (args.length < 2) {
-	    System.err.format("Usage:  %1$s <path> <# GB> [blocksize in bytes]\n", Driver.class.getName());
+	    System.err.format("Usage:  java -jar fs-iometer*.jar <path> <# GB> [blocksize in bytes]\n");
 	    return;
 	}
 	// Parse args
@@ -31,16 +31,19 @@ public class Driver {
 		blocksize = Integer.parseInt(args[2]);
 	    }
 	    byte[] data = new byte[blocksize];
-	    BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(tmp));
+	    BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(tmp), 
+                                                               blocksize);
 	    long bytesWritten = 0;
+	    int feedbackInterval = (int)Math.floor((bytes * 1.0) / (blocksize * 20.0));
+	    System.out.print("Writing...");
 	    long start = System.currentTimeMillis();
 	    int loopCount = 0;
 	    while (bytesWritten < bytes) {
 		os.write(data);
 		bytesWritten += blocksize;
 		loopCount++;
-		if (loopCount % 100000 == 0) {
-		    System.out.print(">");
+		if (loopCount % feedbackInterval == 0) {
+		    System.out.print(".");
 		}
 	    }
 	    os.flush();
@@ -51,14 +54,15 @@ public class Driver {
 	    System.out.format("\nWrote %1$s GB in %2$s seconds (%3$.2f MBps, %4$.2f Mbps)\n", 
 			      args[1], (ms / 1000), MBps, Mbps);
 	    
-	    // Read it back 1 kB at a time
+	    // Read it back block at a time
+	    System.out.print("Reading...");
 	    BufferedInputStream is = new BufferedInputStream(new FileInputStream(tmp));
 	    start = System.currentTimeMillis();
 	    loopCount = 0;
 	    while (is.read(data) != -1) {
 		loopCount++;
-		if (loopCount % 100000 == 0) {
-		    System.out.print("<");
+		if (loopCount % feedbackInterval == 0) {
+		    System.out.print(".");
 		}
 	    }
 	    is.close();
