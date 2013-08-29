@@ -15,7 +15,7 @@ public class Driver {
     public static void main(String[] args)
             throws Exception {
         if (args.length < 2) {
-            System.err.format("Usage:  java -jar fs-iometer*.jar <path> <# GB> [blocksize in bytes]\n");
+            System.err.println("Usage:  java -jar fs-iometer*.jar <path> <# GB> [blocksize in bytes]");
             return;
         }
         // Parse args
