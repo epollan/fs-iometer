@@ -1,8 +1,8 @@
 package main
 
 import (
-	"os"
 	"io/ioutil"
+	"os"
 )
 
 func main() {
@@ -19,4 +19,3 @@ func main() {
 		handleError(err)
 	}()
 }
-

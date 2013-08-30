@@ -2,9 +2,9 @@ package main
 
 import (
 	"bufio"
-	"time"
-	"os"
 	"io"
+	"os"
+	"time"
 )
 
 func write(f *os.File, args *args) {
@@ -16,7 +16,7 @@ func write(f *os.File, args *args) {
 
 	bufferedWriter := bufio.NewWriterSize(f, int(args.blocksize))
 	feedback := newFeedback("Writing...", args.bytes, args.blocksize)
-	
+
 	start := time.Now()
 	for bytesWritten := int64(0); bytesWritten < args.bytes; bytesWritten += args.blocksize {
 		_, err := bufferedWriter.Write(buffer)
@@ -35,7 +35,7 @@ func read(f *os.File, args *args) {
 	handleError(err)
 	bufferedReader := bufio.NewReaderSize(f, int(args.blocksize))
 	feedback := newFeedback("Reading...", args.bytes, args.blocksize)
-	
+
 	start := time.Now()
 	for {
 		_, err := bufferedReader.Read(buffer)

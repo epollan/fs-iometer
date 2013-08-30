@@ -2,18 +2,18 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
+	"math"
 	"os"
 	"strconv"
-	"math"
-	"fmt"
 )
 
 type args struct {
-	gb int          // GB to read/write
-	bytes int64     // bytes to read/write
-	dir string      // directory in which data should be written/read
-	blocksize int64 // blocksize for buffered reads/writes
+	gb        int    // GB to read/write
+	bytes     int64  // bytes to read/write
+	dir       string // directory in which data should be written/read
+	blocksize int64  // blocksize for buffered reads/writes
 }
 
 func ParseArgs() *args {
@@ -36,17 +36,17 @@ func ParseArgs() *args {
 	handleError(err)
 
 	return &args{
-        gb: int(gb),
-        bytes: int64(uint64(math.Pow10(9)) * uint64(gb)),
-	    dir: positional[0],
-        blocksize: *blocksize,
+		gb:        int(gb),
+		bytes:     int64(uint64(math.Pow10(9)) * uint64(gb)),
+		dir:       positional[0],
+		blocksize: *blocksize,
 	}
 }
 
 func usage() {
 	fmt.Fprintf(os.Stderr, "Usage:  iometer [options] <dir> <# GB>\n")
 	flag.PrintDefaults()
-    os.Exit(2)
+	os.Exit(2)
 }
 
 func handleError(err error) {
@@ -58,4 +58,3 @@ func handleError(err error) {
 func fail(msg string) {
 	log.Fatal(msg)
 }
-
