@@ -4,7 +4,7 @@ set -o errexit
 
 pushd `dirname $0` &> /dev/null
 
-GOPATH=`pwd`
+export GOPATH=`pwd`
 go install iometer
 
 popd &> /dev/null
