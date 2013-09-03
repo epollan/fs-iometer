@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	var args = ParseArgs()
+	var args = parseArgs()
 
 	file, err := ioutil.TempFile(args.dir, "data")
 	handleError(err)

@@ -16,7 +16,7 @@ type args struct {
 	blocksize int64  // blocksize for buffered reads/writes
 }
 
-func ParseArgs() *args {
+func parseArgs() *args {
 	var blocksize = flag.Int64("blocksize", 32768, "Read/write blocksize, defaults to 32KB")
 	flag.Usage = usage
 	flag.Parse()
